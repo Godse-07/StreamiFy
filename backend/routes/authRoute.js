@@ -1,11 +1,22 @@
 const express = require('express');
-const { signUpController, loginController, logoutController } = require('../controllers/authControllers');
+const { signUpController, loginController, logoutController, onBoardingController } = require('../controllers/authControllers');
 const isLoggedIn = require('../middleware/isLoggedIn');
 
 const router = express.Router();
 
 router.post("/signUp", signUpController);
-router.post("/login", isLoggedIn, loginController);
-router.post("/logout", isLoggedIn, logoutController);
+router.post("/login", loginController);
+router.post("/logout", logoutController);
+
+router.post("/onboaeding", isLoggedIn, onBoardingController)
+
+
+// check if user is logged in or not
+router.get("/me", isLoggedIn, (req, res)=>{
+    res.status(200).json({
+        success: true,
+        user: req.user
+    });
+})
 
 module.exports = router;

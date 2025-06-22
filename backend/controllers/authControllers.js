@@ -43,6 +43,8 @@ const signUpController = async (req, res)=>{
             return res.status(500).send("Failed to create Stream user");
         }
 
+        const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        res.compare("token", token);
         res.status(201).json({
             message: "User created successfully",
             user: newUser
@@ -72,7 +74,7 @@ const loginController = async (req, res) => {
         res.cookie("token", token);
 
         res.status(201).json({
-            message: "User created successfully",
+            message: "User Login successfully",
             user: user,
         })
     }catch(error){
@@ -94,8 +96,64 @@ const logoutController = (req, res) => {
     }
 } 
 
+const onBoardingController = async (req, res)=>{
+    try{
+        const userId = req.user.id;
+        const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
+        if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location){
+            return res.status(400).json({
+                message: "All fields are required",
+                missingFields: [
+                    !fullName && "fullName",
+                    !bio && "bio",
+                    !nativeLanguage && "nativeLanguage",
+                    !learningLanguage && "learningLanguage",
+                    !location && "location"
+                ]
+            });
+        }
+        const updatedUser = await User.findByIdAndUpdate(userId, {
+            fullName,
+            bio,
+            nativeLanguage,
+            learningLanguage,
+            location,
+            isOnboarded: true
+        }, {new: true})
+
+        if(!updatedUser){
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        try{
+            await upsertStreamUser({
+                id: updatedUser._id.toString(),
+                name: updatedUser.fullName,
+                image: updatedUser.profilePic,
+            })
+            console.log(`Stream user updated successfully: ${updatedUser.fullName}`);
+        }catch(streamError){
+            console.error('Error updating Stream user:', streamError);
+            return res.status(500).send("Failed to update Stream user");
+        }
+
+        res.status(200).json({
+            message: "User onboarded successfully",
+            user: updatedUser
+        })
+
+    }catch(error){
+        console.error('Error during onboarding:', error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+
 module.exports = {
     signUpController,
     loginController,
-    logoutController
+    logoutController,
+    onBoardingController
 }
