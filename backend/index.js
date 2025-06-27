@@ -4,6 +4,7 @@ const router = require('./routes/authRoute');
 const mongoConnection = require('./config/db');
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", router)
 
 app.use("/api/users", userRoutes);
+
+app.use("/api/chat", chatRoutes);
 
 
 mongoConnection().then(()=>{
