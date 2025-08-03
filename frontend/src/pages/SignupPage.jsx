@@ -18,10 +18,6 @@ const SignupPage = () => {
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: async () => {
-      if (signupData.password.length < 6) {
-        toast.error("Password must be at least 6 characters long");
-        throw new Error("Password too short");
-      }
       const response = await signUp(signupData);
       return response.data;
     },
@@ -62,14 +58,10 @@ const SignupPage = () => {
                   </p>
                 </div>
 
-                {/* Error tab */}
+                {/* ERROR MESSAGE IF ANY */}
                 {error && (
                   <div className="alert alert-error mb-4">
-                    <span>
-                      {error.response?.data?.message ||
-                        error.message ||
-                        "Unknown error"}
-                    </span>
+                    <span>{error.response.data}</span>
                   </div>
                 )}
 
