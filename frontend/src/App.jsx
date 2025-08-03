@@ -13,8 +13,9 @@ import { exiosInstance } from './lib/axios'
 
 const App = () => {
 
-  const {data: authData, isLoading, error} = useQuery({queryKey: ["authUser"],
-    queryFn: async ()=>{
+  const { data: authData } = useQuery({
+    queryKey: ["authUser"],
+    queryFn: async () => {
       const res = await exiosInstance.get("/auth/me")
       return res.data
     },
@@ -33,7 +34,6 @@ const App = () => {
         <Route path='/chat' element={authUser ? <ChatPage /> : <Navigate to={"/login"} />} />
         <Route path='/notifications' element={authUser ? <NotificationsPage /> : <Navigate to={"/login"} />} />
         <Route path='/onboarding' element={authUser ? <OnboardingPage /> : <Navigate to={"/login"} />} />
-
       </Routes>
     </div>
   )
