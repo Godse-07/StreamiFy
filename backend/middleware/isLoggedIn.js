@@ -1,13 +1,15 @@
 const jwt =  require('jsonwebtoken');
+const User = require('../model/User');
 
-const isLoggedIn = (req, res, next)=>{
+const isLoggedIn =async (req, res, next)=>{
     const token = req.cookies.token;
     if(!token){
         return res.status(401).json({ message: "Unauthorized access" });
     }
     try{
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decodedToken;
+        const currentUser = await User.findById(decodedToken.id).select("-password");
+        req.user = currentUser;
         next();
     }catch(error){
         console.error('Error during token verification:', error);

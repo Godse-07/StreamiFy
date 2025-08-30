@@ -6,9 +6,11 @@ const getRecommendedUsers = async (req, res)=>{
         const userId = req.user.id;
         const currentUser = await User.findById(userId).select("-password");
         const recommentedUsers = await User.find({
-            _id: { $ne: userId }, // Exclude current user
-            isOnboarded: true, // Only include users who have completed onboarding]
-            friends: { $nin: userId } // Exclude users who are already friends
+            $and: [
+                { _id: { $ne: userId } }, //exclude current user
+                { _id: { $nin: currentUser.friends } }, // exclude current user's friends
+                { isOnboarded: true },
+            ],
         })
         res.status(200).json({
             success: true,
