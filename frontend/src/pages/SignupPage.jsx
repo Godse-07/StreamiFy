@@ -1,10 +1,7 @@
 import { Eye, EyeOff, ShipWheelIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-
-import { signUp } from "../lib/api";
-import { toast } from "react-hot-toast";
+import useSignup from "../hooks/useSignup";
 
 const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -14,22 +11,12 @@ const SignupPage = () => {
   });
 
   const [showPassword, setshowPassword] = useState(false);
-  const queryClient = useQueryClient();
-
-  const { mutate, isPending, error } = useMutation({
-    mutationFn: async () => {
-      const response = await signUp(signupData);
-      return response.data;
-    },
-    onSuccess: () => {
-      toast.success("Account created successfully!");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    },
-  });
+  
+  const {signupMutation, isPending, error} = useSignup();
 
   const handleSignup = (e) => {
     e.preventDefault();
-    mutate();
+    signupMutation(signupData);
   };
 
   return (
