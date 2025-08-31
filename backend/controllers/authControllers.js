@@ -3,6 +3,7 @@ const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { upsertStreamUser } = require("../config/stream");
+const getRandomAvatar = require("../config/randomAvatar");
 
 const signUpController = async (req, res) => {
     const { email, password, fullName } = req.body;
@@ -23,7 +24,7 @@ const signUpController = async (req, res) => {
             return res.status(400).send("User already exists with this email");
         }
         const hashedPassword = await passwordEncryption(password);
-        const randomAvatar = "https://api.dicebear.com/9.x/lorelei/svg"
+        const randomAvatar = getRandomAvatar();
         const newUser = await User.create({
             fullName,
             email,

@@ -8,7 +8,7 @@ router.post("/signUp", signUpController);
 router.post("/login", loginController);
 router.post("/logout", logoutController);
 
-router.post("/onboaeding", isLoggedIn, onBoardingController)
+router.post("/onboarding", isLoggedIn, onBoardingController)
 
 
 // check if user is logged in or not
