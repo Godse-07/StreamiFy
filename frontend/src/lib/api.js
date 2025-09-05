@@ -30,3 +30,23 @@ export const logout = async () => {
   const response = await axiosInstance.post("/auth/logout");
   return response.data;
 }
+
+export const getUserFriends = async () => {
+  const response = await axiosInstance.get("/users/friends");
+  return response.data.friends;
+}
+
+export const getRecommendedUsers = async () => {
+  const response = await axiosInstance.get("users");
+  return response.data.recommendedUsers || [];
+}
+
+export const getOutgoingFriendRequests = async () => {
+  const response = await axiosInstance.get("/users/outgoing-friend-requests");
+  return response.data.outgoingRequests;
+}
+
+export const sendFriendRequests = async (userId) => {
+  const response = await axiosInstance.post(`/users/friend-requests/${userId}`);
+  return response.data;
+}
