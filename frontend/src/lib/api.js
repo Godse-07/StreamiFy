@@ -11,11 +11,22 @@ export const login = async (loginData) => {
 }
 
 export const getAuthUser = async () => {
-  const res = await axiosInstance.get("/auth/me")
-  return res.data
+  try{
+    const res = await axiosInstance.get("/auth/me")
+    return res.data
+  }catch(err){
+    console.log(err);
+    return null;
+  }
 }
 
 export const completeOnboarding = async (onboardingData) => {
   const response = await axiosInstance.post("/auth/onboarding", onboardingData);
+  return response.data;
+}
+
+export const logout = async () => {
+  console.log("Logging out user...");
+  const response = await axiosInstance.post("/auth/logout");
   return response.data;
 }
