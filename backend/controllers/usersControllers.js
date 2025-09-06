@@ -113,10 +113,8 @@ const acceptFriendRequest = async (req, res)=>{
     try{
         const myId = req.user.id;
         const { id } = req.params;
-        const friendRequest = await FriendRequest.findOne({
-            sender: id,
-            recipient: myId,
-        })
+        const friendRequest = await FriendRequest.findById(id);
+        
         if(!friendRequest){
             return res.status(404).json({
                 success: false,
@@ -128,7 +126,7 @@ const acceptFriendRequest = async (req, res)=>{
 
         // Add each other to friends list
         const currentUser = await User.findById(myId);
-        const friendUser = await User.findById(id);
+        const friendUser = await User.findById(friendRequest.sender);
         
         if(!currentUser || !friendUser){
             return res.status(404).json({
@@ -137,7 +135,7 @@ const acceptFriendRequest = async (req, res)=>{
             });
         }
 
-        currentUser.friends.push(id);
+        currentUser.friends.push(friendRequest.sender);
         friendUser.friends.push(myId);
 
         await currentUser.save();
@@ -163,12 +161,12 @@ const getFriendRequests = async (req, res)=>{
         const incomingReqests = await FriendRequest.find({
             recipient: req.user.id,
             status: "pending"
-        }).populate("sender", "fullName profilePicture nativeLanguage learningLanguage");
+        }).populate("sender", "fullName profilePic nativeLanguage learningLanguage");
 
         const acceptedReqs = await FriendRequest.find({
             sender: req.user.id,
             status: "accepted"
-        }).populate("recipient", "fullName profilePicture");
+        }).populate("recipient", "fullName profilePic");
 
         res.status(200).json({
             success: true,
