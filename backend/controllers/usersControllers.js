@@ -161,7 +161,7 @@ const acceptFriendRequest = async (req, res)=>{
 const getFriendRequests = async (req, res)=>{
     try{
         const incomingReqests = await FriendRequest.find({
-            resipient: req.user.id,
+            recipient: req.user.id,
             status: "pending"
         }).populate("sender", "fullName profilePicture nativeLanguage learningLanguage");
 
@@ -191,7 +191,7 @@ const getOutgoingFriendRequests = async (req, res)=>{
         const outgoingRequests = await FriendRequest.find({
             sender: req.user.id,
             status: "pending"
-        }).populate("recipient", "fullName profilePicture nativeLanguage learningLanguage");
+        }).populate("recipient", "_id fullName profilePicture nativeLanguage learningLanguage");
 
         res.status(200).json({
             success: true,

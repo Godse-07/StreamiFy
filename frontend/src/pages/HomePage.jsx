@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getOutgoingFriendRequests, getRecommendedUsers, getUserFriends } from '../lib/api';
 import { sendFriendRequests } from './../lib/api';
 import { Link } from 'react-router';
-import { MapPinIcon, UserIcon, UserPlus } from 'lucide-react';
+import { CheckCircleIcon, MapPinIcon, UserIcon, UserPlus } from 'lucide-react';
 import FriendCard from '../components/FriendCard';
 import NoFriendsFound from '../components/NoFriendsFound';
 import { getLanguageFlag } from './../lib/getLanguageFlag';
@@ -40,7 +40,7 @@ const HomePage = () => {
   useEffect(() =>{
     const outgoingIds = new Set()
     if(outgoingFriendReqs && outgoingFriendReqs.length > 0) {
-      outgoingFriendReqs.forEach(req => outgoingIds.add(req.to_user._id))
+      outgoingFriendReqs.forEach(req => outgoingIds.add(req.recipient._id))
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs])
