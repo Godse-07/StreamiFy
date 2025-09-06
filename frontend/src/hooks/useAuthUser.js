@@ -8,6 +8,9 @@ const useAuthUser = () => {
         queryFn: getAuthUser,
         retry: false,
     });
+
+    
+
     return {isLoading: authUser.isLoading, authUser: authUser.data?.user}
 }
 
