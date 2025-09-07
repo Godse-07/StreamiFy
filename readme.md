@@ -1,5 +1,10 @@
 # 🌐 Streamify
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/af939687-0fec-431d-85cf-1e62cc94f645" alt="Streamify_logo" width="400" height="400">
+</p>
+
+
 A modern **language exchange platform** enabling real-time communication, video calls, and global collaboration — built with scalable technologies for a seamless user experience.
 
 ---
