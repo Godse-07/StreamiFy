@@ -26,7 +26,6 @@ export const completeOnboarding = async (onboardingData) => {
 }
 
 export const logout = async () => {
-  console.log("Logging out user...");
   const response = await axiosInstance.post("/auth/logout");
   return response.data;
 }

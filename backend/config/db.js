@@ -1,7 +1,8 @@
-const monggose = require('mongoose');
+const mongoose = require('mongoose');
 
 const mongoConnection = async ()=>{
-    monggose.connect(`${process.env.MONGO_URL}/StreamiFy`).
+    const dbUrl = process.env.MONGO_URL;
+    mongoose.connect(`${dbUrl}/StreamiFy?retryWrites=true&w=majority&appName=Cluster0`).
     then(() => {
         console.log('✅✅ Connected to MongoDB');
     }).catch((err) => {

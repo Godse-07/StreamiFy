@@ -38,7 +38,6 @@ const signUpController = async (req, res) => {
                 name: newUser.fullName,
                 image: newUser.profilePic,
             })
-            console.log(`stream user created successfully: ${newUser.fullName}`);
         } catch (error) {
             console.error('Error creating Stream user:', error);
             return res.status(500).send("Failed to create Stream user");
@@ -140,7 +139,6 @@ const onBoardingController = async (req, res) => {
                 name: updatedUser.fullName,
                 image: updatedUser.profilePic,
             })
-            console.log(`Stream user updated successfully: ${updatedUser.fullName}`);
         } catch (streamError) {
             console.error('Error updating Stream user:', streamError);
             return res.status(500).send("Failed to update Stream user");
