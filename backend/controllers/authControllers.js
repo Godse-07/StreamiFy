@@ -47,6 +47,8 @@ const signUpController = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         res.status(201).json({
@@ -76,7 +78,9 @@ const loginController = async (req, res) => {
         }
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.cookie("token", token,{
-            httpOnly: true
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         res.status(201).json({
