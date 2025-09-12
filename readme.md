@@ -125,3 +125,38 @@ npm run dev
 cd ../frontend
 npm run dev
 ```
+# 🐳 Running with Docker (Recommended for Contributors)
+
+We provide a Docker-based setup so you don't have to install Node.js or MongoDB locally.  
+Make sure you have Docker & Docker Compose installed on your machine.
+
+## ✅ Steps
+
+1. Edit the `.env` files in both **backend** and **frontend** with your API keys and secrets.
+
+2. Build and start both services (backend & frontend) with one command:
+   ```bash
+   docker-compose up --build
+   ```
+   **Note:** For the first time it will take time. After that you can use:
+   ```bash
+   docker-compose up
+   ```
+
+3. Access the app:
+   - Frontend → http://localhost:5173
+   - Backend → http://localhost:3000
+
+4. Stop the containers:
+   ```bash
+   docker-compose down
+   ```
+
+## ⚡ Notes
+
+- Any changes you make in the code will automatically reflect inside the running containers (via volume mounts).
+- First build might take a few minutes since it installs all dependencies.
+
+👉 This way, new contributors have two clear paths:
+- Manual setup (Node installed locally)
+- Docker setup (simpler for beginners)
