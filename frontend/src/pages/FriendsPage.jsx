@@ -4,6 +4,7 @@ import { getUserFriends } from '../lib/api';
 import { Link } from 'react-router';
 import { UserIcon } from 'lucide-react';
 import FriendCard from '../components/FriendCard';
+import NoFriendsFound from '../components/NoFriendsFound';
 
 const FriendsPage = () => {
 
